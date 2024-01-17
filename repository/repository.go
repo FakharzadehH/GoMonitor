@@ -24,7 +24,7 @@ func (r *Repository) GetServerStatusByID(id uint, status *domain.ServerStatus) e
 }
 
 func (r *Repository) GetServerStatusByAddress(address string, status *domain.ServerStatus) error {
-	return r.db.Where("address = ?", address).Find(&status).Error
+	return r.db.Where("address = ?", address).First(&status).Error
 }
 
 func (r *Repository) GetAllServers() ([]domain.ServerStatus, error) {
