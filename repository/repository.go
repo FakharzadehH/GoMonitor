@@ -23,7 +23,7 @@ func (r *Repository) GetServerStatusByID(id uint, status *domain.ServerStatus) e
 	return r.db.First(status, id).Error
 }
 
-func (r *Repository) GetServerStatusByName(address string, status *domain.ServerStatus) error {
+func (r *Repository) GetServerStatusByAddress(address string, status *domain.ServerStatus) error {
 	return r.db.Where("address = ?", address).Find(&status).Error
 }
 
