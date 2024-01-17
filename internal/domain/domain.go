@@ -9,6 +9,11 @@ type ServerStatus struct {
 	Failure     int       `json:"failure"`
 	LastFailure time.Time `json:"last_failure"`
 	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+}
+
+func (ServerStatus) TableName() string {
+	return "servers"
 }
 
 type AddServerRequest struct {
