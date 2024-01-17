@@ -1,13 +1,15 @@
 package service
 
-import "gorm.io/gorm"
+import (
+	"github.com/FakharzadehH/GoMonitor/repository"
+)
 
 type Service struct {
-	db *gorm.DB
+	Repos *repository.Repository
 }
 
-func NewService(db *gorm.DB) *Service {
+func NewService(Repos *repository.Repository) *Service {
 	return &Service{
-		db: db,
+		Repos: Repos,
 	}
 }
