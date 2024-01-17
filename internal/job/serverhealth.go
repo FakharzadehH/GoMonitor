@@ -5,6 +5,7 @@ import (
 	"github.com/FakharzadehH/GoMonitor/internal/logger"
 	"github.com/FakharzadehH/GoMonitor/repository"
 	"github.com/go-co-op/gocron"
+	"gopkg.in/guregu/null.v4"
 	"net/http"
 	"time"
 )
@@ -42,7 +43,7 @@ func checkServersHealth(repo *repository.Repository) {
 			// TODO: add success metric
 		} else {
 			server.Failure += 1
-			server.LastFailure = time.Now()
+			server.LastFailure = null.TimeFrom(time.Now())
 			// todo: add failure metric
 		}
 		if err := repo.Upsert(&server); err != nil {
