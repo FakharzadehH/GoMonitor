@@ -8,8 +8,7 @@ import (
 var cfg Config
 
 type Config struct {
-	ReadDB        DB     `mapstructure:"read_db"`
-	WriteDB       DB     `mapstructure:"write_db"`
+	DB            DB     `mapstructure:"db"`
 	CheckInterval string `mapstructure:"check_interval"`
 	AppPort       string `mapstructure:"app_port"`
 }
