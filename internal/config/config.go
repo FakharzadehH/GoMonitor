@@ -9,7 +9,7 @@ var cfg Config
 
 type Config struct {
 	DB            DB     `mapstructure:"db"`
-	CheckInterval string `mapstructure:"check_interval"`
+	CheckInterval int    `mapstructure:"check_interval"`
 	AppPort       string `mapstructure:"app_port"`
 }
 
