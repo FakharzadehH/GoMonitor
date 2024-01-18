@@ -1,13 +1,16 @@
 package domain
 
-import "time"
+import (
+	"gopkg.in/guregu/null.v4"
+	"time"
+)
 
 type ServerStatus struct {
 	ID          uint      `json:"id"`
 	Address     string    `json:"address"`
 	Success     int       `json:"success"`
 	Failure     int       `json:"failure"`
-	LastFailure time.Time `json:"last_failure"`
+	LastFailure null.Time `json:"last_failure"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }
