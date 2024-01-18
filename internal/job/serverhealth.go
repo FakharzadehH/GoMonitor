@@ -19,7 +19,7 @@ func CheckServersHealthJob() {
 	repo := repository.NewRepository(db)
 	TehranTime, _ := time.LoadLocation("Asia/Tehran")
 	s := gocron.NewScheduler(TehranTime)
-	s.Every(cfg.CheckInterval).Second().Do(func() {
+	s.Every(cfg.CheckInterval).Minute().Do(func() {
 		logger.Logger().Debugw("started Check Servers Health Job")
 		//TODO: add metrics of job starts
 		startTime := time.Now()
@@ -56,7 +56,10 @@ func checkServersHealth(repo *repository.Repository) {
 func sendGetRequest(address string) bool {
 	isHealthy := false
 
-	resp, _ := http.Get("http://" + address)
+	resp, err := http.Get("http://" + address)
+	if err != nil {
+		return false
+	}
 	if resp.StatusCode >= 200 && resp.StatusCode < 300 {
 		isHealthy = true
 	}
