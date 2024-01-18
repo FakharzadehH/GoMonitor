@@ -1,0 +1,12 @@
+DB:
+  WRITE_USERNAME:
+  WRITE_PASSWORD:
+  WRITE_HOST:
+  WRITE_PORT:
+  READ_USERNAME:
+  READ_PASSWORD:
+  READ_HOST:
+  READ_PORT:
+  DB_NAME:
+  SSL_MODE: # set prefer for default
+Check_Interval:  # in minutes
