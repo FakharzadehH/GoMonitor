@@ -11,9 +11,9 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-func NewGORMConnection(cfg Config) (*gorm.DB, error) {
+func NewGORMConnection(DSN string) (*gorm.DB, error) {
 	pg := postgres.New(postgres.Config{
-		DSN:                  cfg.DB.GetDSN(),
+		DSN:                  DSN,
 		PreferSimpleProtocol: true,
 	})
 
