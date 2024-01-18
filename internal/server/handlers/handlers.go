@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/FakharzadehH/GoMonitor/internal/domain"
 	"github.com/FakharzadehH/GoMonitor/internal/logger"
-	"github.com/FakharzadehH/GoMonitor/repository"
 	"github.com/FakharzadehH/GoMonitor/service"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
@@ -13,16 +12,14 @@ import (
 )
 
 type Handlers struct {
-	repos *repository.Repository
-	svcs  *service.Service
-	log   *zap.SugaredLogger
+	svcs *service.Service
+	log  *zap.SugaredLogger
 }
 
-func New(repos *repository.Repository, svcs *service.Service) *Handlers {
+func New(svcs *service.Service) *Handlers {
 	return &Handlers{
-		repos: repos,
-		svcs:  svcs,
-		log:   logger.Logger(),
+		svcs: svcs,
+		log:  logger.Logger(),
 	}
 }
 

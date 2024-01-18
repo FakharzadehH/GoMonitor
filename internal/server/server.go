@@ -13,14 +13,20 @@ func Start() error {
 	e := echo.New()
 	e.Use(echoMiddleware.Logger())
 	e.HTTPErrorHandler = ErrorHandler()
-	db, err := config.NewGORMConnection(config.GetConfig())
+	writeDB, err := config.NewGORMConnection(config.GetConfig().DB.GetWriteDSN())
 	if err != nil {
 		return err
 	}
+	readDB, err := config.NewGORMConnection(config.GetConfig().DB.GetReadDSN())
+	if err != nil {
+		return err
+	}
+	//TODO: add prometheus
 
-	repos := repository.NewRepository(db)
-	svcs := service.NewService(repos)
-	handler := handlers.New(repos, svcs)
+	writeRepos := repository.NewRepository(writeDB)
+	readRepos := repository.NewRepository(readDB)
+	svcs := service.NewService(writeRepos, readRepos)
+	handler := handlers.New(svcs)
 	routes(e, handler)
-	return e.Start(":1323")
+	return e.Start(":" + config.GetConfig().AppPort)
 }
