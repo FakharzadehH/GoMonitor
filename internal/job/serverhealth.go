@@ -12,26 +12,31 @@ import (
 
 func CheckServersHealthJob() {
 	cfg := config.GetConfig()
-	db, err := config.NewGORMConnection(cfg)
+	writeDB, err := config.NewGORMConnection(config.GetConfig().DB.GetWriteDSN())
 	if err != nil {
 		logger.Logger().Fatal(err)
 	}
-	repo := repository.NewRepository(db)
+	readDB, err := config.NewGORMConnection(config.GetConfig().DB.GetReadDSN())
+	if err != nil {
+		logger.Logger().Fatal(err)
+	}
+	writeRepo := repository.NewRepository(writeDB) // a good practice would be to have 2 separate repo implementations
+	ReadRepo := repository.NewRepository(readDB)
 	TehranTime, _ := time.LoadLocation("Asia/Tehran")
 	s := gocron.NewScheduler(TehranTime)
 	s.Every(cfg.CheckInterval).Minute().Do(func() {
 		logger.Logger().Debugw("started Check Servers Health Job")
 		//TODO: add metrics of job starts
 		startTime := time.Now()
-		checkServersHealth(repo)
+		checkServersHealth(writeRepo, ReadRepo)
 		duration := time.Since(startTime)
 		logger.Logger().Debugw("Finished Check Servers Health Job", "duration", duration)
 	})
 	s.StartAsync()
 }
 
-func checkServersHealth(repo *repository.Repository) {
-	servers, err := repo.GetAllServers()
+func checkServersHealth(writeRepo *repository.Repository, readRepo *repository.Repository) {
+	servers, err := readRepo.GetAllServers()
 	if err != nil {
 		logger.Logger().Errorw("error in CheckServersHealthJob", "error", err)
 		return
@@ -46,7 +51,7 @@ func checkServersHealth(repo *repository.Repository) {
 			server.LastFailure = null.TimeFrom(time.Now())
 			// todo: add failure metric
 		}
-		if err := repo.Upsert(&server); err != nil {
+		if err := writeRepo.Upsert(&server); err != nil {
 			logger.Logger().Errorw("error while updating server health status", "error", err)
 			//TODO: add metric
 		}
