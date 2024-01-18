@@ -7,6 +7,7 @@ import (
 	"github.com/FakharzadehH/GoMonitor/service"
 	"github.com/labstack/echo/v4"
 	echoMiddleware "github.com/labstack/echo/v4/middleware"
+	"os"
 )
 
 func Start() error {
@@ -28,5 +29,5 @@ func Start() error {
 	svcs := service.NewService(writeRepos, readRepos)
 	handler := handlers.New(svcs)
 	routes(e, handler)
-	return e.Start(":" + config.GetConfig().AppPort)
+	return e.Start(":" + os.Getenv("APP_PORT"))
 }
