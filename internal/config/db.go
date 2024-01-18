@@ -15,7 +15,7 @@ type DB struct {
 	SSLMode       string `mapstructure:"ssl_mode"`
 }
 
-const DBMSPostgres = "postgres"
+//const DBMSPostgres = "postgres"
 
 func (db DB) GetWriteDSN() string {
 	return fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
