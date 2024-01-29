@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: go-app-configmap
+data:
+  config.yaml: |-
+    DB:
+      WRITE_HOST: postgres-service
+      WRITE_PORT: "5432"
+      READ_HOST: postgres-service
+      READ_PORT: "5432"
+      DB_NAME: gomonitor
+      SSL_MODE: prefer
+    Check_Interval: "1"
