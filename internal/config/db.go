@@ -5,17 +5,15 @@ import "fmt"
 type DB struct {
 	WriteHost     string `mapstructure:"write_host"`
 	WritePort     string `mapstructure:"write_port"`
-	WriteUsername string `mapstructure:"write_username"`
-	WritePassword string `mapstructure:"write_password"`
+	WriteUsername string
+	WritePassword string
 	ReadHost      string `mapstructure:"read_host"`
 	ReadPort      string `mapstructure:"read_port"`
-	ReadUsername  string `mapstructure:"read_username"`
-	ReadPassword  string `mapstructure:"read_password"`
+	ReadUsername  string
+	ReadPassword  string
 	DBName        string `mapstructure:"db_name"`
 	SSLMode       string `mapstructure:"ssl_mode"`
 }
-
-//const DBMSPostgres = "postgres"
 
 func (db DB) GetWriteDSN() string {
 	return fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
