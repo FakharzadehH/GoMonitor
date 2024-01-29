@@ -1,6 +1,7 @@
 package config
 
 import (
+	"gorm.io/plugin/prometheus"
 	"log"
 	"os"
 	"time"
@@ -12,6 +13,7 @@ import (
 )
 
 func NewGORMConnection(DSN string) (*gorm.DB, error) {
+
 	pg := postgres.New(postgres.Config{
 		DSN:                  DSN,
 		PreferSimpleProtocol: true,
@@ -37,6 +39,17 @@ func NewGORMConnection(DSN string) (*gorm.DB, error) {
 		Logger:          log,
 		CreateBatchSize: 100,
 	})
+	gormDB.Use(prometheus.New(prometheus.Config{
+		DBName:          GetConfig().DB.DBName,
+		RefreshInterval: 15,   // refresh metrics interval (default 15 seconds)
+		StartServer:     true, // start http server to expose metrics
+		MetricsCollector: []prometheus.MetricsCollector{
+			&prometheus.Postgres{VariableNames: []string{"Threads_running"}},
+		},
+		Labels: map[string]string{
+			"instance": "127.0.0.1",
+		},
+	}))
 	if err != nil {
 		return nil, err
 	}

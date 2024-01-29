@@ -5,6 +5,7 @@ import (
 	"github.com/FakharzadehH/GoMonitor/internal/server/handlers"
 	"github.com/FakharzadehH/GoMonitor/repository"
 	"github.com/FakharzadehH/GoMonitor/service"
+	"github.com/labstack/echo-contrib/echoprometheus"
 	"github.com/labstack/echo/v4"
 	echoMiddleware "github.com/labstack/echo/v4/middleware"
 	"os"
@@ -12,6 +13,10 @@ import (
 
 func Start() error {
 	e := echo.New()
+
+	e.Use(echoprometheus.NewMiddleware("echo"))
+	e.GET("/metrics", echoprometheus.NewHandler())
+
 	e.Use(echoMiddleware.Logger())
 	e.HTTPErrorHandler = ErrorHandler()
 	writeDB, err := config.NewGORMConnection(config.GetConfig().DB.GetWriteDSN())
@@ -22,7 +27,6 @@ func Start() error {
 	if err != nil {
 		return err
 	}
-	//TODO: add prometheus
 
 	writeRepos := repository.NewRepository(writeDB)
 	readRepos := repository.NewRepository(readDB)
