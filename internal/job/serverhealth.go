@@ -21,10 +21,10 @@ func CheckServersHealthJob() {
 	if err != nil {
 		logger.Logger().Fatal(err)
 	}
-	metrics := metrics.NewMetrics()
-	monitorMetrics := metrics.NewMonitorMetrics("GoMonitor")
-	writeRepo := repository.NewRepository(writeDB) // a good practice would be to have 2 separate repo implementations
-	ReadRepo := repository.NewRepository(readDB)
+	monitorMetrics := metrics.GetMetrics().NewMonitorMetrics("GoMonitor")
+	dbMetrics := metrics.GetMetrics().NewDBMetrics()
+	writeRepo := repository.NewRepository(writeDB, dbMetrics) // a good practice would be to have 2 separate repo implementations
+	ReadRepo := repository.NewRepository(readDB, dbMetrics)
 	TehranTime, _ := time.LoadLocation("Asia/Tehran")
 	s := gocron.NewScheduler(TehranTime)
 	s.Every(cfg.CheckInterval).Minute().Do(func() {
@@ -43,7 +43,6 @@ func checkServersHealth(writeRepo *repository.Repository, readRepo *repository.R
 	servers, err := readRepo.GetAllServers()
 	if err != nil {
 		logger.Logger().Errorw("error while getting servers list in CheckServersHealthJob", "error", err)
-		monitorMetrics.DBReplyFailure.Inc()
 		return
 	}
 	httpClient := http.Client{
@@ -64,7 +63,6 @@ func checkServersHealth(writeRepo *repository.Repository, readRepo *repository.R
 		}
 		if err := writeRepo.Upsert(&server); err != nil {
 			logger.Logger().Errorw("error while updating server health status", "error", err)
-			monitorMetrics.DBReplyFailure.Inc()
 		}
 
 	}
