@@ -4,6 +4,7 @@ import (
 	"github.com/FakharzadehH/GoMonitor/internal/domain"
 	"github.com/FakharzadehH/GoMonitor/internal/metrics"
 	"gorm.io/gorm"
+	"time"
 )
 
 type Repository struct {
@@ -19,7 +20,11 @@ func NewRepository(db *gorm.DB, metrics *metrics.DBMetrics) *Repository {
 }
 
 func (r *Repository) Upsert(status *domain.ServerStatus) error {
+	start := time.Now()
 	err := r.db.Save(status).Error
+	duration := time.Since(start).Milliseconds()
+	r.metrics.DBCalls.Inc()
+	r.metrics.DBLatency.Add(float64(duration))
 	if err != nil {
 		r.metrics.DBReplyFailure.Inc()
 	}
@@ -27,7 +32,13 @@ func (r *Repository) Upsert(status *domain.ServerStatus) error {
 }
 
 func (r *Repository) GetServerStatusByID(id uint, status *domain.ServerStatus) error {
+	start := time.Now()
 	err := r.db.First(status, id).Error
+	duration := time.Since(start).Milliseconds()
+
+	r.metrics.DBCalls.Inc()
+	r.metrics.DBLatency.Add(float64(duration))
+
 	if err != nil {
 		r.metrics.DBReplyFailure.Inc()
 	}
@@ -35,7 +46,13 @@ func (r *Repository) GetServerStatusByID(id uint, status *domain.ServerStatus) e
 }
 
 func (r *Repository) GetServerStatusByAddress(address string, status *domain.ServerStatus) error {
+	start := time.Now()
 	err := r.db.Where("address = ?", address).First(&status).Error
+	duration := time.Since(start).Milliseconds()
+
+	r.metrics.DBCalls.Inc()
+	r.metrics.DBLatency.Add(float64(duration))
+
 	if err != nil {
 		r.metrics.DBReplyFailure.Inc()
 	}
@@ -44,7 +61,13 @@ func (r *Repository) GetServerStatusByAddress(address string, status *domain.Ser
 
 func (r *Repository) GetAllServers() ([]domain.ServerStatus, error) {
 	servers := []domain.ServerStatus{}
+	start := time.Now()
 	err := r.db.Find(&servers).Error
+	duration := time.Since(start).Milliseconds()
+
+	r.metrics.DBCalls.Inc()
+	r.metrics.DBLatency.Add(float64(duration))
+
 	if err != nil {
 		r.metrics.DBReplyFailure.Inc()
 	}
