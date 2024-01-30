@@ -47,11 +47,15 @@ services:
       timeout: 5s
       retries: 5
   app:
-    build: .
+    image: h0si/cc-project-k8s
     ports:
       - "1323:1323"
     environment:
       APP_PORT: 1323
+      DB_WRITE_USERNAME: cG9zdGdyZXM=
+      DB_WRITE_PASSWORD: cG9zdGdyZXM=
+      DB_READ_USERNAME: cG9zdGdyZXM=
+      DB_READ_PASSWORD: cG9zdGdyZXM=
     depends_on:
       postgres-service:
           condition: service_healthy
