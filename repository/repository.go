@@ -2,32 +2,51 @@ package repository
 
 import (
 	"github.com/FakharzadehH/GoMonitor/internal/domain"
+	"github.com/FakharzadehH/GoMonitor/internal/metrics"
 	"gorm.io/gorm"
 )
 
 type Repository struct {
-	db *gorm.DB
+	db      *gorm.DB
+	metrics *metrics.DBMetrics
 }
 
-func NewRepository(db *gorm.DB) *Repository {
+func NewRepository(db *gorm.DB, metrics *metrics.DBMetrics) *Repository {
 	return &Repository{
-		db: db,
+		db:      db,
+		metrics: metrics,
 	}
 }
 
 func (r *Repository) Upsert(status *domain.ServerStatus) error {
-	return r.db.Save(status).Error
+	err := r.db.Save(status).Error
+	if err != nil {
+		r.metrics.DBReplyFailure.Inc()
+	}
+	return err
 }
 
 func (r *Repository) GetServerStatusByID(id uint, status *domain.ServerStatus) error {
-	return r.db.First(status, id).Error
+	err := r.db.First(status, id).Error
+	if err != nil {
+		r.metrics.DBReplyFailure.Inc()
+	}
+	return err
 }
 
 func (r *Repository) GetServerStatusByAddress(address string, status *domain.ServerStatus) error {
-	return r.db.Where("address = ?", address).First(&status).Error
+	err := r.db.Where("address = ?", address).First(&status).Error
+	if err != nil {
+		r.metrics.DBReplyFailure.Inc()
+	}
+	return err
 }
 
 func (r *Repository) GetAllServers() ([]domain.ServerStatus, error) {
 	servers := []domain.ServerStatus{}
-	return servers, r.db.Find(&servers).Error
+	err := r.db.Find(&servers).Error
+	if err != nil {
+		r.metrics.DBReplyFailure.Inc()
+	}
+	return servers, err
 }
