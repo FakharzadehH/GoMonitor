@@ -12,3 +12,4 @@ data:
       DB_NAME: gomonitor
       SSL_MODE: prefer
     Check_Interval: "1"
+  APP_PORT: "1323"
