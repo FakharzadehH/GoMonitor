@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/FakharzadehH/GoMonitor/internal/config"
+	"github.com/FakharzadehH/GoMonitor/internal/metrics"
 	"github.com/FakharzadehH/GoMonitor/internal/server/handlers"
 	"github.com/FakharzadehH/GoMonitor/repository"
 	"github.com/FakharzadehH/GoMonitor/service"
@@ -27,9 +28,9 @@ func Start() error {
 	if err != nil {
 		return err
 	}
-
-	writeRepos := repository.NewRepository(writeDB)
-	readRepos := repository.NewRepository(readDB)
+	dbMetrics := metrics.GetMetrics().NewDBMetrics()
+	writeRepos := repository.NewRepository(writeDB, dbMetrics)
+	readRepos := repository.NewRepository(readDB, dbMetrics)
 	svcs := service.NewService(writeRepos, readRepos)
 	handler := handlers.New(svcs)
 	routes(e, handler)
