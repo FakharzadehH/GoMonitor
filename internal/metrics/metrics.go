@@ -12,6 +12,8 @@ type Metrics struct {
 	dbReply           *prometheus.CounterVec
 	jobDuration       *prometheus.CounterVec
 	jobStart          *prometheus.CounterVec
+	dbCalls           *prometheus.CounterVec
+	dbLatency         *prometheus.CounterVec
 }
 
 var metrics = NewMetrics()
@@ -34,6 +36,14 @@ func NewMetrics() *Metrics {
 			Name: "db_reply",
 			Help: "status of db replies to queries",
 		}, []string{"db", "status"}),
+		dbCalls: promauto.NewCounterVec(prometheus.CounterOpts{
+			Name: "db_calls",
+			Help: "number of queries requested from database",
+		}, []string{"db"}),
+		dbLatency: promauto.NewCounterVec(prometheus.CounterOpts{
+			Name: "db_latency",
+			Help: "time between requesting a query and getting response from db",
+		}, []string{"db"}),
 		jobDuration: promauto.NewCounterVec(prometheus.CounterOpts{
 			Name: "monitor_job_duration",
 			Help: "duration it takes to finish checking all servers healths",
@@ -56,6 +66,8 @@ type MonitorMetrics struct {
 }
 
 type DBMetrics struct {
+	DBCalls        prometheus.Counter
+	DBLatency      prometheus.Counter
 	DBReplyFailure prometheus.Counter
 }
 
@@ -73,6 +85,8 @@ func (m *Metrics) NewMonitorMetrics(name string) *MonitorMetrics {
 func (m *Metrics) NewDBMetrics() *DBMetrics {
 	return &DBMetrics{
 		DBReplyFailure: m.dbReply.WithLabelValues("GoMonitorDB", "failure"),
+		DBCalls:        m.dbCalls.WithLabelValues("GoMonitorDB"),
+		DBLatency:      m.dbLatency.WithLabelValues("GoMonitorDB"),
 	}
 }
 
