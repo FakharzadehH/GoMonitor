@@ -5,11 +5,11 @@ metadata:
 data:
   config.yaml: |-
     DB:
-      WRITE_HOST: postgres-service
+      WRITE_HOST: db-headless-svc
       WRITE_PORT: "5432"
-      READ_HOST: postgres-service
+      READ_HOST: db-read-svc
       READ_PORT: "5432"
-      DB_NAME: gomonitor
+      DB_NAME: postgres
       SSL_MODE: prefer
     Check_Interval: "1"
   APP_PORT: "1323"
