@@ -33,10 +33,11 @@ app:
       cpu: 1
 
 postgresql:
-  enabled: true
-  postgresqlUsername: postgres
-  postgresqlPassword: postgres
-  postgresqlDatabase: postgres
-  replication:
-    enabled: true
-    slaveReplicas: 1
+  auth:
+    replicationUsername: postgres
+    replicationPassword: postgres
+    username: postgres
+    password: postgres
+  architecture: replication
+  readReplicas:
+    replicaCount: 2
