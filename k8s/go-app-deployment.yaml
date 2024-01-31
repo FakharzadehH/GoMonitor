@@ -17,6 +17,7 @@ spec:
       containers:
         - name: go-app
           image: h0si/cc-project-k8s
+#          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 1323
           env:

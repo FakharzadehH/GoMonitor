@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: postgres
 spec:
-  serviceName: db-headless-svc
+  serviceName: postgres
   replicas: 2
   selector:
     matchLabels:
@@ -16,7 +16,7 @@ spec:
       containers:
         - name: postgres
           image: postgres:15.3-alpine3.18
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: IfNotPresent
           env:
             - name: POSTGRES_USER
               valueFrom:
