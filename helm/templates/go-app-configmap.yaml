@@ -8,8 +8,8 @@ data:
       WRITE_HOST: db-headless-svc
       WRITE_PORT: "{{ .Values.db.port }}"
       READ_HOST: db-read-svc
-      READ_PORT: {{ .Values.db.port }}
-      DB_NAME: "{{ .Values.db.name }}"
+      READ_PORT: "{{ .Values.db.port }}"
+      DB_NAME: postgres
       SSL_MODE: prefer
     Check_Interval: "{{ .Values.app.checkInterval }}"
   APP_PORT: "{{ .Values.app.port }}"

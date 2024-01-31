@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: {{ .Values.db.name }}
 spec:
-  serviceName: {{ .Values.db.name }}
+  serviceName: postgres
   replicas: {{ .Values.db.replicas }}
   selector:
     matchLabels:
