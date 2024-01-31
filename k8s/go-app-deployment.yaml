@@ -20,22 +20,22 @@ spec:
           ports:
             - containerPort: 1323
           env:
-            - name: POSTGRES_WRITE_USERNAME
+            - name: DB_WRITE_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: db-secret
                   key: WRITE_USERNAME
-            - name: POSTGRES_WRITE_PASSWORD
+            - name: DB_WRITE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: db-secret
                   key: WRITE_PASSWORD
-            - name: POSTGRES_READ_USERNAME
+            - name: DB_READ_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: db-secret
                   key: READ_USERNAME
-            - name: POSTGRES_READ_PASSWORD
+            - name: DB_READ_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: db-secret
@@ -47,7 +47,7 @@ spec:
                   key: APP_PORT
           volumeMounts:
             - name: config-volume
-              mountPath: /
+              mountPath: /app/config.yaml
               subPath: config.yaml
       volumes:
         - name: config-volume
