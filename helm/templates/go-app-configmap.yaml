@@ -5,9 +5,9 @@ metadata:
 data:
   config.yaml: |-
     DB:
-      WRITE_HOST: db-headless-svc
+      WRITE_HOST: gomonitor-release-postgresql-primary-hl
       WRITE_PORT: "{{ .Values.db.port }}"
-      READ_HOST: db-read-svc
+      READ_HOST: gomonitor-release-postgresql-read
       READ_PORT: "{{ .Values.db.port }}"
       DB_NAME: postgres
       SSL_MODE: prefer

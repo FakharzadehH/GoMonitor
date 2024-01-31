@@ -22,21 +22,25 @@ spec:
             - containerPort: {{ .Values.app.port }}
           env:
             - name: DB_WRITE_USERNAME
+{{/*              value: postgres*/}}
               valueFrom:
                 secretKeyRef:
                   name: db-secret
                   key: WRITE_USERNAME
             - name: DB_WRITE_PASSWORD
+{{/*              value: postgres*/}}
               valueFrom:
                 secretKeyRef:
                   name: db-secret
                   key: WRITE_PASSWORD
             - name: DB_READ_USERNAME
+{{/*              value: postgres*/}}
               valueFrom:
                 secretKeyRef:
                   name: db-secret
                   key: READ_USERNAME
             - name: DB_READ_PASSWORD
+{{/*              value: postgres*/}}
               valueFrom:
                 secretKeyRef:
                   name: db-secret

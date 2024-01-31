@@ -2,19 +2,19 @@ db:
   image: postgres
   tag: 15.3-alpine3.18
   name: postgres
-  writeUsername: postgres
-  writePassword: postgres
-  readUsername: postgres
-  readPassword: postgres
+  writeUsername: cG9zdGdyZXM=
+  writePassword: cG9zdGdyZXM=
+  readUsername: cG9zdGdyZXM=
+  readPassword: cG9zdGdyZXM=
   port: 5432
   resources:
     requests:
-      memory: 128Mi
+      memory: 256Mi
       cpu: 0.5
     limits:
-      memory: 256Mi
+      memory: 512Mi
       cpu: 1
-  storage: 512Mi
+  storage: 1Gi
   replicas: 2
 
 app:
@@ -26,10 +26,10 @@ app:
   replicas: 2
   resources:
     requests:
-      memory: 128Mi
+      memory: 256Mi
       cpu: 0.5
     limits:
-      memory: 256Mi
+      memory: 512Mi
       cpu: 1
 
 postgresql:
@@ -38,6 +38,7 @@ postgresql:
     replicationPassword: postgres
     username: postgres
     password: postgres
+    postgresPassword: postgres
   architecture: replication
   readReplicas:
     replicaCount: 2
