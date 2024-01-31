@@ -31,3 +31,12 @@ app:
     limits:
       memory: 256Mi
       cpu: 1
+
+postgresql:
+  enabled: true
+  postgresqlUsername: postgres
+  postgresqlPassword: postgres
+  postgresqlDatabase: postgres
+  replication:
+    enabled: true
+    slaveReplicas: 1

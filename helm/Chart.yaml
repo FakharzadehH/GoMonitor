@@ -1,4 +1,10 @@
 apiVersion: v2
-name: helm
+name: go-app-monitor
 description: A Helm chart for The Go HTTP monitoring system
+type: application
 version: 0.1.0
+
+dependencies:
+  - name: postgresql
+    version: 13.4.3
+    repository: https://charts.bitnami.com/bitnami
