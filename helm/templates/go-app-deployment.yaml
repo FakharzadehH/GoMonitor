@@ -50,6 +50,13 @@ spec:
             - name: config-volume
               mountPath: /app/config.yaml
               subPath: config.yaml
+          resources:
+            requests:
+              memory: {{ .Values.app.resources.requests.memory }}
+              cpu: "{{ .Values.app.resources.requests.cpu }}"
+            limits:
+              memory: {{ .Values.app.resources.limits.memory }}
+              cpu: "{{ .Values.app.resources.limits.cpu }}"
       volumes:
         - name: config-volume
           configMap:
