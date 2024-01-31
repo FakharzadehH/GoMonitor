@@ -1,7 +1,6 @@
 package config
 
 import (
-	b64 "encoding/base64"
 	"github.com/spf13/viper"
 	"os"
 	"strings"
@@ -34,14 +33,21 @@ func Load(configPath string) error {
 		return err
 	}
 
-	writeUsername, _ := b64.StdEncoding.DecodeString(os.Getenv("DB_WRITE_USERNAME"))
-	writePassword, _ := b64.StdEncoding.DecodeString(os.Getenv("DB_WRITE_PASSWORD"))
-	readUsername, _ := b64.StdEncoding.DecodeString(os.Getenv("DB_READ_USERNAME"))
-	readPassword, _ := b64.StdEncoding.DecodeString(os.Getenv("DB_WRITE_PASSWORD"))
-
-	cfg.DB.WriteUsername = string(writeUsername)
-	cfg.DB.WritePassword = string(writePassword)
-	cfg.DB.ReadUsername = string(readUsername)
-	cfg.DB.ReadPassword = string(readPassword)
+	//writeUsername, _ := b64.StdEncoding.DecodeString(os.Getenv("DB_WRITE_USERNAME"))
+	//writePassword, _ := b64.StdEncoding.DecodeString(os.Getenv("DB_WRITE_PASSWORD"))
+	//readUsername, _ := b64.StdEncoding.DecodeString(os.Getenv("DB_READ_USERNAME"))
+	//readPassword, _ := b64.StdEncoding.DecodeString(os.Getenv("DB_WRITE_PASSWORD"))
+	//cfg.DB.WriteUsername = string(writeUsername)
+	//cfg.DB.WritePassword = string(writePassword)
+	//cfg.DB.ReadUsername = string(readUsername)
+	//cfg.DB.ReadPassword = string(readPassword)
+	writeUsername := os.Getenv("DB_WRITE_USERNAME")
+	writePassword := os.Getenv("DB_WRITE_PASSWORD")
+	readUsername := os.Getenv("DB_READ_USERNAME")
+	readPassword := os.Getenv("DB_WRITE_PASSWORD")
+	cfg.DB.WriteUsername = writeUsername
+	cfg.DB.WritePassword = writePassword
+	cfg.DB.ReadUsername = readUsername
+	cfg.DB.ReadPassword = readPassword
 	return nil
 }
