@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/FakharzadehH/GoMonitor/internal/domain"
 	"gorm.io/plugin/prometheus"
 	"log"
 	"os"
@@ -50,8 +51,12 @@ func NewGORMConnection(DSN string) (*gorm.DB, error) {
 			"instance": "127.0.0.1",
 		},
 	}))
+
 	if err != nil {
 		return nil, err
+	}
+	if !gormDB.Migrator().HasTable("servers") {
+		gormDB.AutoMigrate(&domain.ServerStatus{})
 	}
 	return gormDB, nil
 }

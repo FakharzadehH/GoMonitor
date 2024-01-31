@@ -6,7 +6,7 @@ import (
 )
 
 type ServerStatus struct {
-	ID          uint      `json:"id"`
+	ID          uint      `gorm:"primarykey" json:"id"`
 	Address     string    `json:"address"`
 	Success     int       `json:"success"`
 	Failure     int       `json:"failure"`
