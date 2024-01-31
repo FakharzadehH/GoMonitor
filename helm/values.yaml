@@ -1,0 +1,19 @@
+db:
+  image: postgres
+  tag: 15.3-alpine3.18
+  name: postgres
+  writeUsername: postgres
+  writePassword: postgres
+  readUsername: postgres
+  readPassword: postgres
+  port: 5432
+  storage: 512Mi
+  replicas: 2
+
+app:
+  image: h0si/cc-project-k8s
+  tag: latest
+  name: go-app
+  port: 1323
+  checkInterval: 1
+  replicas: 2

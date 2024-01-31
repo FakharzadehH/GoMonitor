@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: go-app-configmap
+data:
+  config.yaml: |-
+    DB:
+      WRITE_HOST: db-headless-svc
+      WRITE_PORT: "{{ .Values.db.port }}"
+      READ_HOST: db-read-svc
+      READ_PORT: {{ .Values.db.port }}
+      DB_NAME: "{{ .Values.db.name }}"
+      SSL_MODE: prefer
+    Check_Interval: "{{ .Values.app.checkInterval }}"
+  APP_PORT: "{{ .Values.app.port }}"

@@ -1,0 +1,4 @@
+apiVersion: v2
+name: helm
+description: A Helm chart for The Go HTTP monitoring system
+version: 0.1.0
