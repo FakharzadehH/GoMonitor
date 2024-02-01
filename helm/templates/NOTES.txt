@@ -1,1 +1,9 @@
+helm create helm
+
+-adding repo:
+    helm repo add bitnami https://charts.bitnami.com/bitnami
+    helm repo add metric-server https://kubernetes-sigs.github.io/metrics-server/
+    helm repo update
+    helm dependency update ./helm
+
 helm install gomonitor-release helm/ --values helm/values.yaml

@@ -42,3 +42,7 @@ postgresql:
   architecture: replication
   readReplicas:
     replicaCount: 2
+
+hpa:
+  minPods: 1
+  maxPods: 10

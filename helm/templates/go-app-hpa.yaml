@@ -1,0 +1,12 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: monitoring-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: go-app-deployment
+  minReplicas: {{ .Values.hpa.minPods }}
+  maxReplicas: {{ .Values.hpa.maxPods }}
+  targetCPUUtilizationPercentage: 90
