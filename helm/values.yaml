@@ -10,10 +10,10 @@ db:
   resources:
     requests:
       memory: 256Mi
-      cpu: 0.5
+      cpu: 250m
     limits:
       memory: 512Mi
-      cpu: 1
+      cpu: 500m
   storage: 1Gi
   replicas: 2
 
@@ -26,10 +26,10 @@ app:
   replicas: 2
   resources:
     requests:
-      memory: 256Mi
-      cpu: 0.5
+      memory: 128Mi
+      cpu: 500m
     limits:
-      memory: 512Mi
+      memory: 256Mi
       cpu: 1
 
 postgresql:
@@ -46,3 +46,4 @@ postgresql:
 hpa:
   minPods: 1
   maxPods: 10
+  targetCPUUtilizationPercentage: 90
